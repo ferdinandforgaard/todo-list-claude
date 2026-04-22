@@ -6,10 +6,13 @@ work gets done in this repo. Read it completely before starting any task.
 ## Branch and PR workflow
 
 - You get your own branch. Never push to `main`.
-- Name your branch `agent/<short-kebab-description>` (e.g. `agent/add-date-filter`).
+- After pushing your branch, you MUST open a pull request before the task is
+  considered complete. Pushing the branch alone is not sufficient.
+- Use the `gh` CLI to open the PR: `gh pr create --title "<short title>" --body "<full PR description>" --base main`. If `gh` is unavailable, use the GitHub API via `curl` with the token at
+  `$GITHUB_TOKEN`. Do not stop at "branch pushed".
+- The PR description MUST follow the format in the "PR description format"
+  section below, with the screenshot embedded inline via a raw GitHub URL.
 - Open exactly one PR per task. Do not bundle unrelated changes.
-- The PR description MUST include a visual verification screenshot embedded inline
-  (see "PR description format" below).
 
 ## Visual verification — required for every UI change
 
@@ -32,21 +35,28 @@ Do not mark the task complete until step 4 has passed.
 
 ## PR description format
 
-Every PR description must follow this template exactly:
+Every PR description must follow this template. Here is a complete worked example
+you can copy and adapt:
 
-```
-## What changed
-<one-sentence summary>
+    ## What changed
+    Adds the initial todo app shell: centered card, title, input, and Add button.
 
-## Why
-<link to issue, or brief rationale>
+    ## Why
+    First task toward building the todo app.
 
-## Visual verification
-![<short description>](https://raw.githubusercontent.com/<owner>/<repo>/<branch>/e2e/screenshots/<file>.png)
+    ## Visual verification
+    ![todo app shell](https://raw.githubusercontent.com/ferdinand/todo-app-test/agent/build-todo-app-shell/e2e/screenshots/todo-app-shell.png)
 
-## How to test
-<local repro steps, if not obvious>
-```
+    ## How to test
+    npm install && npm run test:e2e
+
+The raw GitHub URL has the form:
+`https://raw.githubusercontent.com/<owner>/<repo>/<branch-name>/<path-to-file>`
+
+You can determine these values from the repository you are working in:
+- `<owner>` and `<repo>` come from the git remote URL
+- `<branch-name>` is the branch you just pushed
+- `<path-to-file>` is relative to the repo root (e.g. `e2e/screenshots/foo.png`)
 
 The raw GitHub URL format is required so the screenshot renders inline in the PR.
 Substitute `<owner>`, `<repo>`, and `<branch>` with the actual values. If multiple
