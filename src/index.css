@@ -1,15 +1,94 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: system-ui, -apple-system, sans-serif;
-  max-width: 640px;
-  margin: 4rem auto;
-  padding: 0 1rem;
-  line-height: 1.6;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background: #f4f4f5;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.todo-app {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.todo-card {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.todo-title {
+  margin: 0 0 1.25rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
   color: #1a1a1a;
 }
 
-code {
-  background: #f4f4f5;
-  padding: 0.1em 0.3em;
-  border-radius: 4px;
-  font-size: 0.9em;
+.todo-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.todo-input {
+  flex: 1;
+  padding: 0.65rem 0.85rem;
+  font-size: 1rem;
+  border: 1px solid #d4d4d8;
+  border-radius: 8px;
+  background: #fafafa;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.todo-input:focus {
+  border-color: #2563eb;
+  background: #ffffff;
+}
+
+.todo-input::placeholder {
+  color: #9ca3af;
+}
+
+.todo-add {
+  padding: 0.65rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: #2563eb;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.todo-add:hover {
+  background: #1d4ed8;
+}
+
+.todo-add:active {
+  background: #1e40af;
 }
