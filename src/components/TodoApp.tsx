@@ -1,26 +1,37 @@
-import { useState } from 'react';
-import type { FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 
 type Todo = {
   id: number;
   text: string;
+  completed: boolean;
 };
 
 export default function TodoApp() {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [value, setValue] = useState('');
+  const [draft, setDraft] = useState('');
 
-  const handleAdd = (event: FormEvent<HTMLFormElement>) => {
+  function handleAdd(event: FormEvent) {
     event.preventDefault();
-    const text = value.trim();
+    const text = draft.trim();
     if (!text) return;
-    setTodos((prev) => [...prev, { id: Date.now() + Math.random(), text }]);
-    setValue('');
-  };
+    setTodos((current) => [
+      ...current,
+      { id: Date.now(), text, completed: false },
+    ]);
+    setDraft('');
+  }
 
-  const handleDelete = (id: number) => {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id));
-  };
+  function toggleTodo(id: number) {
+    setTodos((current) =>
+      current.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+      ),
+    );
+  }
+
+  function deleteTodo(id: number) {
+    setTodos((current) => current.filter((todo) => todo.id !== id));
+  }
 
   return (
     <div className="todo-card" data-testid="todo-card">
@@ -31,8 +42,8 @@ export default function TodoApp() {
           className="todo-input"
           placeholder="What needs doing?"
           data-testid="todo-input"
-          value={value}
-          onChange={(event) => setValue(event.target.value)}
+          value={draft}
+          onChange={(event) => setDraft(event.target.value)}
         />
         <button type="submit" className="todo-add" data-testid="add-todo">
           Add
@@ -40,14 +51,27 @@ export default function TodoApp() {
       </form>
       <ul className="todo-list" data-testid="todo-list">
         {todos.map((todo) => (
-          <li key={todo.id} className="todo-item" data-testid="todo-item">
-            <span className="todo-text">{todo.text}</span>
+          <li
+            key={todo.id}
+            className={`todo-item${todo.completed ? ' todo-item--completed' : ''}`}
+            data-testid="todo-item"
+          >
+            <input
+              type="checkbox"
+              className="todo-checkbox"
+              data-testid="todo-checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+            />
+            <span className="todo-text" data-testid="todo-text">
+              {todo.text}
+            </span>
             <button
               type="button"
               className="todo-delete"
               data-testid="delete-todo"
               aria-label={`Delete ${todo.text}`}
-              onClick={() => handleDelete(todo.id)}
+              onClick={() => deleteTodo(todo.id)}
             >
               <svg
                 className="todo-delete-icon"

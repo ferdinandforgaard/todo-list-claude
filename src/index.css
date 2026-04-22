@@ -95,10 +95,23 @@ body {
   border-radius: 8px;
 }
 
+.todo-checkbox {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: #6366f1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
 .todo-text {
   flex: 1;
-  min-width: 0;
+  font-size: 1rem;
   word-break: break-word;
+}
+
+.todo-item--completed .todo-text {
+  text-decoration: line-through;
+  color: #9ca3af;
 }
 
 .todo-delete {
