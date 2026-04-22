@@ -3,18 +3,30 @@ import { useState, type FormEvent } from 'react';
 type Todo = {
   id: number;
   text: string;
+  completed: boolean;
 };
 
 export default function TodoApp() {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [input, setInput] = useState('');
+  const [draft, setDraft] = useState('');
 
   function handleAdd(event: FormEvent) {
     event.preventDefault();
-    const text = input.trim();
+    const text = draft.trim();
     if (!text) return;
-    setTodos((current) => [...current, { id: Date.now() + Math.random(), text }]);
-    setInput('');
+    setTodos((current) => [
+      ...current,
+      { id: Date.now(), text, completed: false },
+    ]);
+    setDraft('');
+  }
+
+  function toggleTodo(id: number) {
+    setTodos((current) =>
+      current.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+      ),
+    );
   }
 
   return (
@@ -26,22 +38,33 @@ export default function TodoApp() {
           className="todo-input"
           placeholder="What needs doing?"
           data-testid="todo-input"
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
+          value={draft}
+          onChange={(event) => setDraft(event.target.value)}
         />
         <button type="submit" className="todo-add" data-testid="add-todo">
           Add
         </button>
       </form>
-      {todos.length > 0 && (
-        <ul className="todo-list" data-testid="todo-list">
-          {todos.map((todo) => (
-            <li key={todo.id} className="todo-item" data-testid="todo-item">
+      <ul className="todo-list" data-testid="todo-list">
+        {todos.map((todo) => (
+          <li
+            key={todo.id}
+            className={`todo-item${todo.completed ? ' todo-item--completed' : ''}`}
+            data-testid="todo-item"
+          >
+            <input
+              type="checkbox"
+              className="todo-checkbox"
+              data-testid="todo-checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+            />
+            <span className="todo-text" data-testid="todo-text">
               {todo.text}
-            </li>
-          ))}
-        </ul>
-      )}
+            </span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
