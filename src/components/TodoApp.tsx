@@ -33,6 +33,7 @@ export default function TodoApp() {
     setTodos((current) => current.filter((todo) => todo.id !== id));
   }
 
+
   return (
     <div className="todo-card" data-testid="todo-card">
       <h1 className="todo-title">Todos</h1>
