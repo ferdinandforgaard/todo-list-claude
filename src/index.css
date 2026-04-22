@@ -107,6 +107,7 @@ body {
   flex: 1;
   font-size: 1rem;
   word-break: break-word;
+  cursor: text;
 }
 
 .todo-item--completed .todo-text {
@@ -137,4 +138,17 @@ body {
 .todo-delete:focus-visible {
   outline: 2px solid #6366f1;
   outline-offset: 2px;
+}
+
+.todo-edit-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid #6366f1;
+  border-radius: 6px;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  background: #ffffff;
 }
