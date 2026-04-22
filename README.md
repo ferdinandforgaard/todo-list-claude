@@ -2,7 +2,7 @@
 
 A GitHub template for web app projects where multiple Claude Code agents work in
 parallel — each on their own branch, each opening their own PR, each self-verifying
-their work with a screenshot that shows up inline in the PR.
+their work with a screenshot that shows up inline in the PR..
 
 ## What's inside
 
