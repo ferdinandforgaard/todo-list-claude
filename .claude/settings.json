@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm ci)",
+      "Bash(npm run *)",
+      "Bash(npx playwright *)",
+      "Bash(git fetch *)",
+      "Bash(git rebase *)",
+      "Bash(git merge *)",
+      "Bash(git push *)",
+      "Bash(gh pr *)",
+      "Bash(gh api *)",
+      "Read(**)",
+      "Edit(**)"
+    ],
+    "deny": []
+  }
+}
