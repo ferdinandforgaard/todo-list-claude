@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, useRef, type FormEvent, type KeyboardEvent } from 'react';
 
 type Todo = {
   id: number;
@@ -9,6 +9,9 @@ type Todo = {
 export default function TodoApp() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [draft, setDraft] = useState('');
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editDraft, setEditDraft] = useState('');
+  const editInputRef = useRef<HTMLInputElement>(null);
 
   function handleAdd(event: FormEvent) {
     event.preventDefault();
@@ -33,6 +36,36 @@ export default function TodoApp() {
     setTodos((current) => current.filter((todo) => todo.id !== id));
   }
 
+  function startEdit(todo: Todo) {
+    setEditingId(todo.id);
+    setEditDraft(todo.text);
+    // Focus happens after render via autoFocus on the input
+  }
+
+  function saveEdit(id: number) {
+    const text = editDraft.trim();
+    if (text) {
+      setTodos((current) =>
+        current.map((todo) => (todo.id === id ? { ...todo, text } : todo)),
+      );
+    }
+    setEditingId(null);
+    setEditDraft('');
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setEditDraft('');
+  }
+
+  function handleEditKeyDown(event: KeyboardEvent, id: number) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      saveEdit(id);
+    } else if (event.key === 'Escape') {
+      cancelEdit();
+    }
+  }
 
   return (
     <div className="todo-card" data-testid="todo-card">
@@ -64,9 +97,28 @@ export default function TodoApp() {
               checked={todo.completed}
               onChange={() => toggleTodo(todo.id)}
             />
-            <span className="todo-text" data-testid="todo-text">
-              {todo.text}
-            </span>
+            {editingId === todo.id ? (
+              <input
+                ref={editInputRef}
+                type="text"
+                className="todo-edit-input"
+                data-testid="todo-edit-input"
+                value={editDraft}
+                autoFocus
+                onChange={(e) => setEditDraft(e.target.value)}
+                onBlur={() => saveEdit(todo.id)}
+                onKeyDown={(e) => handleEditKeyDown(e, todo.id)}
+              />
+            ) : (
+              <span
+                className="todo-text"
+                data-testid="todo-text"
+                onDoubleClick={() => startEdit(todo)}
+                title="Double-click to edit"
+              >
+                {todo.text}
+              </span>
+            )}
             <button
               type="button"
               className="todo-delete"
