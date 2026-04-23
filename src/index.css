@@ -65,7 +65,7 @@ body {
   font-size: 1rem;
   font-weight: 500;
   color: #ffffff;
-  background: #6366f1;
+  background: #16a34a;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -73,7 +73,7 @@ body {
 }
 
 .todo-add:hover {
-  background: #4f46e5;
+  background: #15803d;
 }
 
 .todo-list {
