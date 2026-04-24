@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import ThemeToggle from './ThemeToggle';
 
 type Todo = {
   id: number;
@@ -36,7 +37,10 @@ export default function TodoApp() {
 
   return (
     <div className="todo-card" data-testid="todo-card">
-      <h1 className="todo-title">Todos</h1>
+      <div className="todo-header">
+        <h1 className="todo-title">Todos</h1>
+        <ThemeToggle />
+      </div>
       <form className="todo-input-row" onSubmit={handleAdd}>
         <input
           type="text"
